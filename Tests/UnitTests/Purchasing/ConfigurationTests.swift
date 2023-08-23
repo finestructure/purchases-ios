@@ -31,4 +31,33 @@ class ConfigurationTests: TestCase {
         expect(Configuration.validate(apiKey: "swRTCezdEzjnJSxdexDNJfcfiFrMXwqZ")) == .legacy
     }
 
+    func testObserverModeDefaultsToStoreKit1() {
+        let observerMode = Bool.random()
+
+        let configuration = Configuration.Builder(withAPIKey: "test")
+            .with(observerMode: observerMode)
+            .build()
+
+        expect(configuration.observerMode) == observerMode
+        expect(configuration.storeKit2Setting) == .enabledOnlyForOptimizations
+    }
+
+    func testObserverModeWithStoreKit2Disabled() {
+        let configuration = Configuration.Builder(withAPIKey: "test")
+            .with(observerMode: true, storeKit2: false)
+            .build()
+
+        expect(configuration.observerMode) == true
+        expect(configuration.storeKit2Setting) == .enabledOnlyForOptimizations
+    }
+
+    func testObserverModeWithStoreKit2Enabled() {
+        let configuration = Configuration.Builder(withAPIKey: "test")
+            .with(observerMode: true, storeKit2: true)
+            .build()
+
+        expect(configuration.observerMode) == true
+        expect(configuration.storeKit2Setting) == .enabledForCompatibleDevices
+    }
+
 }
