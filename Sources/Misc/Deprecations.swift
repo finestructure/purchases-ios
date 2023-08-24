@@ -420,6 +420,19 @@ public extension Configuration.Builder {
         return self
     }
 
+    /**
+     * Set `observerMode`.
+     * - Parameter observerMode: Set this to `true` if you have your own IAP implementation and want to use only
+     * RevenueCat's backend. Default is `false`.
+     *
+     * - Note: This assumes your IAP implementation uses StoreKit 1.
+     * If you use StoreKit 2, use ``with(observerMode:storeKit2:)`` instead.
+     */
+    @available(*, deprecated, message: "", renamed: "with(observerMode:storeKit2:)")
+    @objc func with(observerMode: Bool) -> Configuration.Builder {
+        return self.with(observerMode: observerMode, storeKit2: false)
+    }
+
 }
 
 // swiftlint:enable line_length missing_docs file_length

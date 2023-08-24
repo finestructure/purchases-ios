@@ -31,6 +31,7 @@ class ConfigurationTests: TestCase {
         expect(Configuration.validate(apiKey: "swRTCezdEzjnJSxdexDNJfcfiFrMXwqZ")) == .legacy
     }
 
+    @available(*, deprecated)
     func testObserverModeDefaultsToStoreKit1() {
         let observerMode = Bool.random()
 
