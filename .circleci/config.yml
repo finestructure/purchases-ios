@@ -565,7 +565,7 @@ jobs:
       - run:
           name: Run backend_integration Tests
           command: bundle exec fastlane backend_integration_tests
-          no_output_timeout: 5m
+          no_output_timeout: 20m
           environment:
             SCAN_DEVICE: iPhone 14 (17.0)
       - compress_result_bundle:
