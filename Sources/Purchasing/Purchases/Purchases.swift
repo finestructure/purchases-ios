@@ -1140,7 +1140,7 @@ public extension Purchases {
      * - Returns: An instantiated ``Purchases`` object that has been set as a singleton.
      *
      * - Note: This assumes your IAP implementation uses StoreKit 1.
-     * If you use StoreKit 2, use ``Configuration/Builder/with(observerMode:storeKit2:)`` instead.
+     * If you use StoreKit 2, use ``Configuration/Builder/with(observerMode:storeKitVersion:)`` instead.
      */
     @objc(configureWithAPIKey:appUserID:observerMode:)
     @discardableResult static func configure(withAPIKey apiKey: String,
@@ -1150,7 +1150,7 @@ public extension Purchases {
             with: Configuration
                 .builder(withAPIKey: apiKey)
                 .with(appUserID: appUserID)
-                .with(observerMode: observerMode, storeKit2: false)
+                .with(observerMode: observerMode, storeKitVersion: .storeKit1)
                 .build()
         )
     }

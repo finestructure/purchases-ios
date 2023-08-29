@@ -28,6 +28,14 @@ class StoreKit2SettingTests: TestCase {
         expect(StoreKit2Setting(useStoreKit2IfAvailable: false).usesStoreKit2IfAvailable) == false
     }
 
+    func testInitWithStoreKit1() {
+        expect(StoreKit2Setting(version: .storeKit1)) == .enabledOnlyForOptimizations
+    }
+
+    func testInitWithStoreKit2() {
+        expect(StoreKit2Setting(version: .storeKit2)) == .enabledForCompatibleDevices
+    }
+
     func testStoreKit2NotAvailableWhenDisabled() {
         expect(StoreKit2Setting.disabled.shouldOnlyUseStoreKit2) == false
     }

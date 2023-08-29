@@ -34,6 +34,15 @@ extension StoreKit2Setting {
             : .enabledOnlyForOptimizations
     }
 
+    init(version: Configuration.StoreKitVersion) {
+        switch version {
+        case .storeKit1:
+            self = .enabledOnlyForOptimizations
+        case .storeKit2:
+            self = .enabledForCompatibleDevices
+        }
+    }
+
     static let `default`: Self = .enabledOnlyForOptimizations
 
 }

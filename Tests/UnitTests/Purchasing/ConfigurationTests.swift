@@ -43,18 +43,18 @@ class ConfigurationTests: TestCase {
         expect(configuration.storeKit2Setting) == .enabledOnlyForOptimizations
     }
 
-    func testObserverModeWithStoreKit2Disabled() {
+    func testObserverModeWithStoreKit1() {
         let configuration = Configuration.Builder(withAPIKey: "test")
-            .with(observerMode: true, storeKit2: false)
+            .with(observerMode: true, storeKitVersion: .storeKit1)
             .build()
 
         expect(configuration.observerMode) == true
         expect(configuration.storeKit2Setting) == .enabledOnlyForOptimizations
     }
 
-    func testObserverModeWithStoreKit2Enabled() {
+    func testObserverModeWithStoreKit2() {
         let configuration = Configuration.Builder(withAPIKey: "test")
-            .with(observerMode: true, storeKit2: true)
+            .with(observerMode: true, storeKitVersion: .storeKit2)
             .build()
 
         expect(configuration.observerMode) == true

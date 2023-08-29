@@ -37,6 +37,17 @@ import Foundation
  */
 @objc(RCConfiguration) public final class Configuration: NSObject {
 
+    /// The StoreKit version that the SDK is setup with.
+    @objc(RCConfigurationStoreKitVersion)
+    public enum StoreKitVersion: Int {
+
+        // swiftlint:disable missing_docs
+        case storeKit1 = 1
+        case storeKit2 = 2
+        // swiftlint:enable missing_docs
+
+    }
+
     static let storeKitRequestTimeoutDefault: TimeInterval = 30
     static let networkTimeoutDefault: TimeInterval = 60
 
@@ -126,14 +137,18 @@ import Foundation
         }
 
         /**
-         * Set `observerMode` with a corresponding `StoreKit 2` setting.
+         * Set `observerMode` with a corresponding `StoreKit` implementation.
          * - Parameter observerMode: Set this to `true` if you have your own IAP implementation and want to use only
          * RevenueCat's backend. Default is `false`.
-         * - Parameter storeKit2: Set this to `true` if your own IAP implementation uses StoreKit 2. Default is `false`.
+         * - Parameter storeKitVersion: Set this to the StoreKit implementation your app uses for purchases.
+         * I.e.: if your app uses `StoreKit 1`, set it to ``Configuration/StoreKitVersion/storeKit1``
+         * and if your app uses `StoreKit 2`, set it to ``Configuration/StoreKitVersion/storeKit2``.
+         * Apps using `StoreKit 1` use `SKPaymentQueue` for transactions,
+         * whereas `StoreKit 2` uses `StoreKit.Product.Purchase`.
          */
-        @objc public func with(observerMode: Bool, storeKit2: Bool) -> Builder {
+        @objc public func with(observerMode: Bool, storeKitVersion: StoreKitVersion) -> Builder {
             self.observerMode = observerMode
-            self.storeKit2Setting = .init(useStoreKit2IfAvailable: storeKit2)
+            self.storeKit2Setting = .init(version: storeKitVersion)
             return self
         }
 
