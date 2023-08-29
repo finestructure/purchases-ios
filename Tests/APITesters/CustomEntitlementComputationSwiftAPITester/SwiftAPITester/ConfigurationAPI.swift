@@ -14,7 +14,7 @@ func checkConfigurationAPI() {
         .with(apiKey: "")
         .with(appUserID: "")
         .with(appUserID: nil)
-        .with(observerMode: false)
+        .with(observerMode: false, storeKitVersion: .storeKit1)
         .with(userDefaults: UserDefaults.standard)
         .with(dangerousSettings: DangerousSettings())
         .with(dangerousSettings: DangerousSettings(autoSyncPurchases: true))
@@ -26,4 +26,12 @@ func checkConfigurationAPI() {
         .build()
 
     print(configuration)
+}
+
+@available(*, deprecated)
+func checkDeprecatedConfiguration(_ builder: Configuration.Builder) {
+    _ = builder
+        .with(observerMode: false)
+        .with(usesStoreKit2IfAvailable: true)
+        .with(storeKitVersion: .storeKit2)
 }
