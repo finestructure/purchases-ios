@@ -15,7 +15,6 @@ import RevenueCat
 import SwiftUI
 
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, *)
-@available(macOS, unavailable, message: "RevenueCatUI does not support macOS yet")
 @available(tvOS, unavailable, message: "RevenueCatUI does not support tvOS yet")
 extension View {
 
@@ -107,7 +106,6 @@ extension View {
 }
 
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, *)
-@available(macOS, unavailable)
 @available(tvOS, unavailable)
 private struct PresentingPaywallModifier: ViewModifier {
 
@@ -131,29 +129,7 @@ private struct PresentingPaywallModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
             .sheet(item: self.$data) { data in
-                NavigationView {
-                    PaywallView(
-                        offering: self.offering,
-                        customerInfo: data.customerInfo,
-                        fonts: self.fontProvider,
-                        introEligibility: self.introEligibility ?? .default(),
-                        purchaseHandler: self.purchaseHandler ?? .default()
-                    )
-                    .onPurchaseCompleted {
-                        self.purchaseCompleted?($0)
-
-                        self.data = nil
-                    }
-                    .toolbar {
-                        ToolbarItem(placement: .destructiveAction) {
-                            Button {
-                                self.data = nil
-                            } label: {
-                                Image(systemName: "xmark")
-                            }
-                        }
-                    }
-                }
+                self.navigationView(data)
             }
             .task {
                 guard let info = try? await self.customerInfoFetcher() else { return }
@@ -168,6 +144,43 @@ private struct PresentingPaywallModifier: ViewModifier {
                     Logger.debug(Strings.not_displaying_paywall)
                 }
             }
+    }
+
+    private func paywallView(_ data: Data) -> some View {
+        PaywallView(
+            offering: self.offering,
+            customerInfo: data.customerInfo,
+            fonts: self.fontProvider,
+            introEligibility: self.introEligibility ?? .default(),
+            purchaseHandler: self.purchaseHandler ?? .default()
+        )
+        .onPurchaseCompleted {
+            self.purchaseCompleted?($0)
+
+            self.data = nil
+        }
+        .toolbar {
+            ToolbarItem(placement: .destructiveAction) {
+                Button {
+                    self.data = nil
+                } label: {
+                    Image(systemName: "xmark")
+                }
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func navigationView(_ data: Data) -> some View {
+        if #available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *) {
+            NavigationStack {
+                self.paywallView(data)
+            }
+        } else {
+            NavigationView {
+                self.paywallView(data)
+            }
+        }
     }
 
 }
