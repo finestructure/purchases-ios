@@ -420,42 +420,6 @@ public extension Configuration.Builder {
         return self
     }
 
-    /// Set `storeKit2Setting`. If `true`, the SDK will use StoreKit 2 APIs internally. If disabled, it will use StoreKit 1 APIs instead.
-    /// - Parameter storeKitVersion: Set this to the StoreKit implementation your app uses for purchases.
-    /// I.e.: if your app uses `StoreKit 1`, set it to ``Configuration/StoreKitVersion/storeKit1``
-    /// and if your app uses `StoreKit 2`, set it to ``Configuration/StoreKitVersion/storeKit2``.
-    /// Apps using `StoreKit 1` use `SKPaymentQueue` for transactions,
-    /// whereas `StoreKit 2` uses `StoreKit.Product.Purchase`.
-    /// - Important: This configuration flag has been deprecated, and will be replaced by automatic remote configuration in the future.
-    /// However, apps using it should work correctly.
-    ///
-    @available(*, deprecated, message: """
-    RevenueCat currently uses StoreKit 1 for purchases, as its stability in production scenarios has
-    proven to be more performant than StoreKit 2.
-
-    We're collecting more data on the best approach, but StoreKit 1 vs StoreKit 2 is an implementation detail
-    that you shouldn't need to care about.
-
-    Simply remove this method call to let RevenueCat decide for you which StoreKit implementation to use.
-    """)
-    @objc func with(storeKitVersion: Configuration.StoreKitVersion) -> Configuration.Builder {
-        self.storeKit2Setting = .init(version: storeKitVersion)
-        return self
-    }
-
-    /**
-     * Set `observerMode`.
-     * - Parameter observerMode: Set this to `true` if you have your own IAP implementation and want to use only
-     * RevenueCat's backend. Default is `false`.
-     *
-     * - Warning: This assumes your IAP implementation uses StoreKit 1.
-     * If you use StoreKit 2, use ``with(observerMode:storeKitVersion:)`` instead.
-     */
-    @available(*, deprecated, message: "", renamed: "with(observerMode:storeKit2:)")
-    @objc func with(observerMode: Bool) -> Configuration.Builder {
-        return self.with(observerMode: observerMode, storeKitVersion: .storeKit1)
-    }
-
 }
 
 // swiftlint:enable line_length missing_docs file_length
