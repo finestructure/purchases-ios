@@ -1150,7 +1150,7 @@ public extension Purchases {
             with: Configuration
                 .builder(withAPIKey: apiKey)
                 .with(appUserID: appUserID)
-                .with(observerMode: observerMode, storeKitVersion: .storeKit1)
+                .with(observerMode: observerMode)
                 .build()
         )
     }
